@@ -19,40 +19,42 @@
 
 #include "i-viewer-header-bar.h"
 
-struct _IViewerHeaderBarPrivate
-{
-	GtkWidget *  MSettings;
+struct _IViewerHeaderBarPrivate {
+	GtkWidget * MSettings;
 };
 
 
+#define I_VIEWER_HEADER_BAR_GET_PRIVATE(obj)	(G_TYPE_INSTANCE_GET_PRIVATE ((obj), I_TYPE_VIEWER_HEADER_BAR, IViewerHeaderBarPrivate))
 
 
 G_DEFINE_TYPE (IViewerHeaderBar, i_viewer_header_bar, GTK_TYPE_HEADER_BAR);
 
 static void
-i_viewer_header_bar_init (IViewerHeaderBar *i_viewer_header_bar)
-{
-	i_viewer_header_bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (i_viewer_header_bar, I_TYPE_VIEWER_HEADER_BAR, IViewerHeaderBarPrivate);
+i_viewer_header_bar_init (IViewerHeaderBar * self) {
+	IViewerHeaderBarPrivate * priv = I_VIEWER_HEADER_BAR_GET_PRIVATE (self);
 
-	/* TODO: Add initialization code here */
+	
 }
 
 static void
-i_viewer_header_bar_finalize (GObject *object)
-{
+i_viewer_header_bar_finalize (GObject * object) {
 	/* TODO: Add deinitalization code here */
 
 	G_OBJECT_CLASS (i_viewer_header_bar_parent_class)->finalize (object);
 }
 
 static void
-i_viewer_header_bar_class_init (IViewerHeaderBarClass *klass)
-{
+i_viewer_header_bar_class_init (IViewerHeaderBarClass * klass) {
 	GObjectClass* object_class = G_OBJECT_CLASS (klass);
 
 	g_type_class_add_private (klass, sizeof (IViewerHeaderBarPrivate));
 
 	object_class->finalize = i_viewer_header_bar_finalize;
+}
+
+GtkWidget *
+i_viewer_header_bar_new (void) {
+	return GTK_WIDGET (g_object_new (I_TYPE_VIEWER_HEADER_BAR, NULL));
 }
 
 

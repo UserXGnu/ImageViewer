@@ -1,6 +1,8 @@
 main.o: \
  /home/userx/Documents/Dropbox/Shared/SimpleCodes/gtk/widgets/ImageViewer/src/main.c \
- /usr/include/stdc-predef.h ../config.h /usr/include/gtk-3.0/gtk/gtk.h \
+ /usr/include/stdc-predef.h \
+ /home/userx/Documents/Dropbox/Shared/SimpleCodes/gtk/widgets/ImageViewer/src/definitions.h \
+ ../config.h /usr/include/gtk-3.0/gtk/gtk.h \
  /usr/include/gtk-3.0/gdk/gdk.h /usr/include/gtk-3.0/gdk/gdkconfig.h \
  /usr/include/glib-2.0/glib.h /usr/include/glib-2.0/glib/galloca.h \
  /usr/include/glib-2.0/glib/gtypes.h \
@@ -560,9 +562,13 @@ main.o: \
  /usr/include/gtk-3.0/gtk/deprecated/gtkvscrollbar.h \
  /usr/include/gtk-3.0/gtk/deprecated/gtkvseparator.h \
  /usr/include/glib-2.0/glib/gi18n.h /usr/include/libintl.h \
- /usr/include/string.h
+ /usr/include/string.h \
+ /home/userx/Documents/Dropbox/Shared/SimpleCodes/gtk/widgets/ImageViewer/src/i-viewer-header-bar.h \
+ /home/userx/Documents/Dropbox/Shared/SimpleCodes/gtk/widgets/ImageViewer/src/i-viewer-window.h
 
 /usr/include/stdc-predef.h:
+
+/home/userx/Documents/Dropbox/Shared/SimpleCodes/gtk/widgets/ImageViewer/src/definitions.h:
 
 ../config.h:
 
@@ -1819,3 +1825,7 @@ main.o: \
 /usr/include/libintl.h:
 
 /usr/include/string.h:
+
+/home/userx/Documents/Dropbox/Shared/SimpleCodes/gtk/widgets/ImageViewer/src/i-viewer-header-bar.h:
+
+/home/userx/Documents/Dropbox/Shared/SimpleCodes/gtk/widgets/ImageViewer/src/i-viewer-window.h:

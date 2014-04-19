@@ -20,7 +20,7 @@
 #ifndef _I_VIEWER_WINDOW_H_
 #define _I_VIEWER_WINDOW_H_
 
-#include <glib-object.h>
+#include "definitions.h"
 
 G_BEGIN_DECLS
 
@@ -36,19 +36,18 @@ typedef struct _IViewerWIndow IViewerWIndow;
 typedef struct _IViewerWIndowPrivate IViewerWIndowPrivate;
 
 
-struct _IViewerWIndowClass
-{
+struct _IViewerWIndowClass {
 	GtkWindowClass parent_class;
 };
 
-struct _IViewerWIndow
-{
+struct _IViewerWIndow {
 	GtkWindow parent_instance;
 
 	IViewerWIndowPrivate *priv;
 };
 
 GType i_viewer_window_get_type (void) G_GNUC_CONST;
+GtkWidget * i_viewer_window_new (void);
 
 G_END_DECLS
 

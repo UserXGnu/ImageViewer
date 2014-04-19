@@ -18,10 +18,10 @@
  */
 
 #include "i-viewer-window.h"
+#include "i-viewer-header-bar.h"
 
-struct _IViewerWIndowPrivate
-{
-	GtkWidget *  HeaderBar;
+struct _IViewerWIndowPrivate {
+	GtkWidget * HeaderBar;
 };
 
 
@@ -30,29 +30,45 @@ struct _IViewerWIndowPrivate
 G_DEFINE_TYPE (IViewerWIndow, i_viewer_window, GTK_TYPE_WINDOW);
 
 static void
-i_viewer_window_init (IViewerWIndow *i_viewer_window)
-{
-	i_viewer_window->priv = G_TYPE_INSTANCE_GET_PRIVATE (i_viewer_window, I_TYPE_VIEWER_WINDOW, IViewerWIndowPrivate);
+i_viewer_window_init (IViewerWIndow * self) {
+	IViewerWIndowPrivate * priv = G_TYPE_INSTANCE_GET_PRIVATE (self, I_TYPE_VIEWER_WINDOW, IViewerWIndowPrivate);
+	
+	gtk_window_set_title (GTK_WINDOW (self), "ImageViewer");
+	gtk_window_set_default_size (GTK_WINDOW (self), 640, 480);
 
-	/* TODO: Add initialization code here */
+	priv->HeaderBar = i_viewer_header_bar_new ();
+
+	gtk_window_set_titlebar (GTK_WINDOW (self), priv->HeaderBar);
+
+
+	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->HeaderBar), TRUE);
+	gtk_header_bar_set_title (GTK_HEADER_BAR (priv->HeaderBar), "ImageViewer");
+	gtk_header_bar_set_subtitle (GTK_HEADER_BAR (priv->HeaderBar), "First Project - (0.1)");
+	gtk_header_bar_set_has_subtitle (GTK_HEADER_BAR (priv->HeaderBar), TRUE);
+	
+
+	g_signal_connect (self, "destroy", G_CALLBACK (gtk_main_quit), NULL);	
 }
 
 static void
-i_viewer_window_finalize (GObject *object)
-{
+i_viewer_window_finalize (GObject * object) {
 	/* TODO: Add deinitalization code here */
 
 	G_OBJECT_CLASS (i_viewer_window_parent_class)->finalize (object);
 }
 
 static void
-i_viewer_window_class_init (IViewerWIndowClass *klass)
-{
-	GObjectClass* object_class = G_OBJECT_CLASS (klass);
+i_viewer_window_class_init (IViewerWIndowClass *klass) {
+	GObjectClass * object_class = G_OBJECT_CLASS (klass);
 
 	g_type_class_add_private (klass, sizeof (IViewerWIndowPrivate));
 
 	object_class->finalize = i_viewer_window_finalize;
+}
+
+GtkWidget *
+i_viewer_window_new (void) {
+	return GTK_WIDGET (g_object_new (I_TYPE_VIEWER_WINDOW, NULL)); 
 }
 
 

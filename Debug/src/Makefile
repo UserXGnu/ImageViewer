@@ -92,7 +92,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_imageviewer_OBJECTS = main.$(OBJEXT)
+am_imageviewer_OBJECTS = main.$(OBJEXT) i-viewer-window.$(OBJEXT) \
+	i-viewer-header-bar.$(OBJEXT)
 imageviewer_OBJECTS = $(am_imageviewer_OBJECTS)
 am__DEPENDENCIES_1 =
 imageviewer_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -330,7 +331,12 @@ AM_CFLAGS = \
 	 -g
 
 imageviewer_SOURCES = \
-	main.c
+	main.c \
+	i-viewer-window.c \
+	i-viewer-window.h \
+	i-viewer-header-bar.c \
+	i-viewer-header-bar.h \
+	definitions.h
 
 imageviewer_LDFLAGS = \
 	-Wl,--export-dynamic
@@ -430,6 +436,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/i-viewer-header-bar.Po
+include ./$(DEPDIR)/i-viewer-window.Po
 include ./$(DEPDIR)/main.Po
 
 .c.o:

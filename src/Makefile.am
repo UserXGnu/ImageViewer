@@ -17,7 +17,12 @@ AM_CFLAGS =\
 bin_PROGRAMS = imageviewer
 
 imageviewer_SOURCES = \
-	main.c
+	main.c \
+	i-viewer-window.c \
+	i-viewer-window.h \
+	i-viewer-header-bar.c \
+	i-viewer-header-bar.h \
+	definitions.h
 
 
 imageviewer_LDFLAGS = \

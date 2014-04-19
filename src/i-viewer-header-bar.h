@@ -20,7 +20,7 @@
 #ifndef _I_VIEWER_HEADER_BAR_H_
 #define _I_VIEWER_HEADER_BAR_H_
 
-#include <glib-object.h>
+#include "definitions.h"
 
 G_BEGIN_DECLS
 
@@ -49,6 +49,7 @@ struct _IViewerHeaderBar
 };
 
 GType i_viewer_header_bar_get_type (void) G_GNUC_CONST;
+GtkWidget * i_viewer_header_bar_new (void);
 
 G_END_DECLS
 

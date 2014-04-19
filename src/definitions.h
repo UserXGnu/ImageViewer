@@ -23,3 +23,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+#ifndef _DEFINITIONS_H_
+#define _DEFINITIONS_H_
+
+#include <config.h>
+#include <gtk/gtk.h>
+#include <glib-object.h>
+#include <glib/gi18n.h>
+
+#include "i-viewer-header-bar.h"
+#include "i-viewer-window.h"
+
+#define TITLE				"ImageViewer"
+#define SUBTITLE			"First Project (0.1)"
+#define VERSION				"0.1"
+
+
+#endif /* _DEFINITIONS_H_ */

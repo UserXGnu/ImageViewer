@@ -17,27 +17,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <config.h>
-#include <gtk/gtk.h>
-
-
-#include <glib/gi18n.h>
-
-
-
-static GtkWidget*
-create_window (void)
-{
-	GtkWidget *window;
-
-	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title (GTK_WINDOW (window), "ImageViewer");
-
-	/* Exit when the window is closed */
-	g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
-	
-	return window;
-}
+#include "definitions.h"
 
 int
 main (int argc, char *argv[])
@@ -55,9 +35,8 @@ main (int argc, char *argv[])
 	
 	gtk_init (&argc, &argv);
 
-	window = create_window ();
-	gtk_widget_show (window);
-
+	window = i_viewer_window_new ();
+	gtk_widget_show_all (window);
 	gtk_main ();
 
 
