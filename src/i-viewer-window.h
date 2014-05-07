@@ -43,11 +43,19 @@ struct _IViewerWIndowClass {
 struct _IViewerWIndow {
 	GtkWindow parent_instance;
 
-	IViewerWIndowPrivate *priv;
+	IViewerWIndowPrivate * priv;
 };
 
 GType i_viewer_window_get_type (void) G_GNUC_CONST;
 GtkWidget * i_viewer_window_new (void);
+
+// Methods ::
+void i_viewer_window_connect_all_signals (IViewerWIndow * self);
+
+// callbacks ::
+void i_viewer_exit_callback (GtkWidget * widget, gpointer user_data);
+void i_viewer_open_callback (GtkWidget * widget, gpointer user_data);
+void i_viewer_focus (GtkWidget * widget, gpointer user_data);
 
 G_END_DECLS
 

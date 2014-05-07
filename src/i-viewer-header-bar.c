@@ -20,7 +20,11 @@
 #include "i-viewer-header-bar.h"
 
 struct _IViewerHeaderBarPrivate {
-	GtkWidget * MSettings;
+     GtkWidget * MSettings;
+
+     GtkWidget * OpenItem;
+     GtkWidget * ExitItem;
+	 
 };
 
 
@@ -29,10 +33,35 @@ struct _IViewerHeaderBarPrivate {
 
 G_DEFINE_TYPE (IViewerHeaderBar, i_viewer_header_bar, GTK_TYPE_HEADER_BAR);
 
+
 static void
 i_viewer_header_bar_init (IViewerHeaderBar * self) {
+	GtkWidget * Menu;
+	
 	IViewerHeaderBarPrivate * priv = I_VIEWER_HEADER_BAR_GET_PRIVATE (self);
 
+	Menu = gtk_menu_new ();
+	
+	priv->OpenItem = gtk_menu_item_new_with_mnemonic ("_Open");
+	priv->ExitItem = gtk_menu_item_new_with_mnemonic ("_Exit");
+	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), priv->OpenItem);
+	gtk_menu_shell_append (GTK_MENU_SHELL (Menu), priv->ExitItem);
+	
+
+	priv->MSettings = gtk_menu_button_new ();
+	gtk_menu_button_set_popup (GTK_MENU_BUTTON (priv->MSettings), Menu);
+	gtk_button_set_image (GTK_BUTTON (priv->MSettings),
+	                           gtk_image_new_from_icon_name ("emblem-system-symbolic",
+	                                                         GTK_ICON_SIZE_MENU));
+
+	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self), TRUE);
+	gtk_header_bar_set_title (GTK_HEADER_BAR (self), "ImageViewer");
+	gtk_header_bar_set_subtitle (GTK_HEADER_BAR (self), "First Project - (0.1)");
+	gtk_header_bar_set_has_subtitle (GTK_HEADER_BAR (self), TRUE);
+
+	gtk_header_bar_pack_end ( GTK_HEADER_BAR (self), priv->MSettings);
+
+	gtk_widget_show_all (Menu);
 	
 }
 
@@ -57,4 +86,19 @@ i_viewer_header_bar_new (void) {
 	return GTK_WIDGET (g_object_new (I_TYPE_VIEWER_HEADER_BAR, NULL));
 }
 
+
+// Methods :: Getters and setters ::
+GtkWidget * 
+i_viewer_header_bar_get_openitem (IViewerHeaderBar * self) {
+	IViewerHeaderBarPrivate * priv = I_VIEWER_HEADER_BAR_GET_PRIVATE (self);
+
+	return priv->OpenItem;
+}
+
+GtkWidget *
+i_viewer_header_bar_get_exititem (IViewerHeaderBar * self){
+	IViewerHeaderBarPrivate * priv = I_VIEWER_HEADER_BAR_GET_PRIVATE (self);
+
+	return priv->ExitItem;
+}
 

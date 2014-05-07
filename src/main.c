@@ -20,10 +20,8 @@
 #include "definitions.h"
 
 int
-main (int argc, char *argv[])
-{
+main (int argc, char ** argv) {
  	GtkWidget *window;
-
 
 
 #ifdef ENABLE_NLS
@@ -31,15 +29,15 @@ main (int argc, char *argv[])
 	bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
+	
 #endif
 	
 	gtk_init (&argc, &argv);
 
 	window = i_viewer_window_new ();
 	gtk_widget_show_all (window);
+	
 	gtk_main ();
-
-
 
 
 	return 0;

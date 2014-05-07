@@ -21,18 +21,25 @@
 #include "i-viewer-header-bar.h"
 
 struct _IViewerWIndowPrivate {
+
 	GtkWidget * HeaderBar;
+    GtkWidget * box;
+    GtkWidget * image;
+
 };
 
 
-
+#define I_VIEWER_WINDOW_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), I_TYPE_VIEWER_WINDOW, IViewerWIndowPrivate))
 
 G_DEFINE_TYPE (IViewerWIndow, i_viewer_window, GTK_TYPE_WINDOW);
+
 
 static void
 i_viewer_window_init (IViewerWIndow * self) {
 	IViewerWIndowPrivate * priv = G_TYPE_INSTANCE_GET_PRIVATE (self, I_TYPE_VIEWER_WINDOW, IViewerWIndowPrivate);
 	
+    /*GdkPixbuf * pb;
+    GError * error = NULL;*/
 	gtk_window_set_title (GTK_WINDOW (self), "ImageViewer");
 	gtk_window_set_default_size (GTK_WINDOW (self), 640, 480);
 
@@ -40,14 +47,19 @@ i_viewer_window_init (IViewerWIndow * self) {
 
 	gtk_window_set_titlebar (GTK_WINDOW (self), priv->HeaderBar);
 
+    priv->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
 
-	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->HeaderBar), TRUE);
-	gtk_header_bar_set_title (GTK_HEADER_BAR (priv->HeaderBar), "ImageViewer");
-	gtk_header_bar_set_subtitle (GTK_HEADER_BAR (priv->HeaderBar), "First Project - (0.1)");
-	gtk_header_bar_set_has_subtitle (GTK_HEADER_BAR (priv->HeaderBar), TRUE);
-	
+    /*priv->image = gtk_image_new ();
+    pb = gdk_pixbuf_new_from_file ("bla.jpg", &error);
+    pb = gdk_pixbuf_scale_simple (GDK_PIXBUF(pb), 540, 380, GDK_INTERP_BILINEAR);
+    gtk_image_set_from_pixbuf (GTK_IMAGE (priv->image), pb);
+    
+    gtk_box_pack_start (GTK_BOX(priv->box), priv->image, TRUE, TRUE, 5);*/
 
-	g_signal_connect (self, "destroy", G_CALLBACK (gtk_main_quit), NULL);	
+    gtk_container_add (GTK_CONTAINER (self), priv->box);
+
+
+	i_viewer_window_connect_all_signals (self);
 }
 
 static void
@@ -72,3 +84,84 @@ i_viewer_window_new (void) {
 }
 
 
+// methods ::
+void
+i_viewer_window_connect_all_signals (IViewerWIndow * self) {
+	IViewerWIndowPrivate * priv =  I_VIEWER_WINDOW_GET_PRIVATE (self);
+
+	g_signal_connect (i_viewer_header_bar_get_exititem (I_VIEWER_HEADER_BAR (priv->HeaderBar)),
+                     "activate", G_CALLBACK (i_viewer_exit_callback),
+                     self);
+
+	g_signal_connect (i_viewer_header_bar_get_openitem (I_VIEWER_HEADER_BAR (priv->HeaderBar)), 
+                      "activate", G_CALLBACK (i_viewer_open_callback),
+                      self);
+
+	g_signal_connect (priv->HeaderBar, "move-focus", G_CALLBACK (i_viewer_focus), NULL);
+	g_signal_connect (self, "destroy", G_CALLBACK(i_viewer_exit_callback), self);
+	
+}
+
+
+
+// callbacks ::
+void
+i_viewer_exit_callback (GtkWidget * widget, gpointer user_data) {
+	gtk_main_quit ();
+}
+void
+i_viewer_open_callback (GtkWidget * widget, gpointer user_data) {
+	GtkWidget * dialog;
+    GtkWidget * wrn_dialog;
+
+
+
+    GdkPixbuf * pb;
+    GError * error;
+
+    const gchar * filename;
+
+  	GtkResponseType asw;
+
+	IViewerWIndowPrivate * priv = I_VIEWER_WINDOW_GET_PRIVATE (I_VIEWER_WINDOW (user_data));
+	
+	dialog = gtk_file_chooser_dialog_new ("Open File",
+										 NULL,
+										 GTK_FILE_CHOOSER_ACTION_OPEN,
+										 "CANCEL", GTK_RESPONSE_CANCEL,
+                                         "OPEN", GTK_RESPONSE_OK,
+										 NULL);
+										 
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(dialog), "/home/userx");
+	
+	asw = gtk_dialog_run (GTK_DIALOG (dialog));
+	
+	if (asw == GTK_RESPONSE_OK) {
+		
+        filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+
+        error = NULL;
+		pb = gdk_pixbuf_new_from_file_at_size (filename, 640, 480, &error);
+        if (pb == NULL) {
+            wrn_dialog = gtk_message_dialog_new (GTK_WINDOW (dialog),
+                                                GTK_DIALOG_DESTROY_WITH_PARENT|GTK_DIALOG_USE_HEADER_BAR,
+                                                GTK_MESSAGE_WARNING, 
+                                                GTK_BUTTONS_OK,
+                                                error->message, NULL);
+            gtk_dialog_run (GTK_DIALOG (wrn_dialog));
+
+        }
+        priv->image = gtk_image_new_from_pixbuf (GDK_PIXBUF (pb));
+        gtk_box_pack_start (GTK_BOX (priv->box), priv->image, TRUE, TRUE, 5);
+        gtk_widget_show_all (priv->box);
+
+	} 
+
+    gtk_widget_destroy (dialog);
+	
+}
+
+void
+i_viewer_focus (GtkWidget * widget, gpointer user_data) {
+	g_print ("Focus\n");
+}

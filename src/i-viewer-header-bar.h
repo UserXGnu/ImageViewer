@@ -51,6 +51,12 @@ struct _IViewerHeaderBar
 GType i_viewer_header_bar_get_type (void) G_GNUC_CONST;
 GtkWidget * i_viewer_header_bar_new (void);
 
+
+// methods - getters and setters ::
+GtkWidget * i_viewer_header_bar_get_openitem (IViewerHeaderBar * self);
+GtkWidget * i_viewer_header_bar_get_exititem (IViewerHeaderBar * self);
+
+
 G_END_DECLS
 
 #endif /* _I_VIEWER_HEADER_BAR_H_ */
